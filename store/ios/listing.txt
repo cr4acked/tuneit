@@ -1,0 +1,124 @@
+Tuneit — App Store Connect listing
+Bundle ID: kz.tuneit.app
+SKU: tuneit
+Version: 1.0.0 (build 1)
+Primary language: English
+Also add localization: Russian
+Category: Music
+Secondary: Utilities
+Age rating: 4+
+Price: Free (or set your price)
+Content rights: no third-party content
+
+Team ID (same as Sprint App): NY54WRBFV6
+Privacy policy URL (host docs/privacy.html, e.g. GitHub Pages on /docs):
+  https://cr4acked.github.io/tuneit/privacy.html
+Until Pages is enabled you can temporarily use:
+  https://github.com/cr4acked/tuneit/blob/main/docs/privacy.html
+
+Support URL: https://github.com/cr4acked/tuneit
+Marketing URL: leave empty
+
+Copyright: legal name of Apple Developer team NY54WRBFV6 (same account as Sprint App)
+
+================================================================
+ENGLISH
+================================================================
+Name: Tuneit
+Subtitle (30): Guitar & bass tuner
+Promotional text (170):
+Offline chromatic tuner for guitar and bass. 80+ tunings, reference tones and a metronome — no ads, no account, no network.
+
+Description:
+Tuneit is a chromatic tuner for guitar and bass. It stays on your phone: no account, no ads, no analytics, no internet.
+
+Open the app, play a string, and watch cents and note name update as you tune. Auto mode picks the nearest string. Manual mode locks one string. Chromatic mode shows any pitch.
+
+Includes a tuning library for 6-, 7-, 8- and 12-string guitar, baritone, and 4-, 5- and 6-string bass: standard, drop, lowered, open and alternate tunings. Save your own custom tunings. Long-press a string to hear a reference tone.
+
+A built-in metronome with tap tempo, time signatures, subdivisions and an optional haptic pulse.
+
+Calibration from 435–445 Hz so every preset follows your A4. Works fully offline. Microphone audio is processed on-device and never uploaded.
+
+Keywords (100):
+guitar,tuner,bass,chromatic,tuning,metronome,pitch,drop,standard,instrument
+
+What's New:
+First release. Offline guitar and bass tuner, tuning library, reference tones and metronome.
+
+================================================================
+RUSSIAN
+================================================================
+Name: Tuneit
+Subtitle (30): Тюнер гитары и баса
+Promotional text (170):
+Офлайн-хроматический тюнер для гитары и баса. 80+ строёв, эталонные тона и метроном — без рекламы, аккаунта и сети.
+
+Description:
+Tuneit — хроматический тюнер для гитары и баса. Всё на телефоне: без аккаунта, рекламы, аналитики и интернета.
+
+Откройте приложение, сыграйте струну и смотрите, как обновляются центы и название ноты. Авто-режим выбирает ближайшую струну. Ручной фиксирует одну струну. Хроматический показывает любую высоту.
+
+Библиотека строёв для 6-, 7-, 8- и 12-струнной гитары, баритона и 4-, 5- и 6-струнного баса: стандарт, drop, пониженные, открытые и альтернативные строи. Свои строи можно сохранить. Долгое нажатие на струну — эталонный тон.
+
+Метроном с tap tempo, размерами, дроблениями и опциональным вибро-пульсом.
+
+Калибровка A4 435–445 Гц сдвигается на все пресеты. Полностью офлайн. Звук с микрофона обрабатывается на устройстве и никуда не отправляется.
+
+Keywords (100):
+тюнер,гитара,бас,строй,метроном,настройка,хроматический,drop,гитарный,офлайн
+
+What's New:
+Первый выпуск. Офлайн-тюнер гитары и баса, библиотека строёв, эталонные тона и метроном.
+
+================================================================
+APP PRIVACY (App Store Connect questionnaire)
+================================================================
+Data collection: No (does not collect data)
+Tracking: No
+Microphone: used for app functionality only, on device, not linked to identity, not used for tracking.
+  If the form forces a "data type": do NOT add Audio Data — it is not collected or stored.
+UserDefaults/settings are on-device only and are not "collected".
+
+================================================================
+APP REVIEW NOTES
+================================================================
+Tuneit is an offline chromatic tuner. No login.
+
+On first launch iOS asks for microphone access so the tuner can hear a string. Grant it to see pitch. If you deny, reference tones and the metronome still work.
+
+There is no account, no IAP in this build, no ads, and the release build does not use the network.
+
+================================================================
+SCREENSHOTS (required)
+================================================================
+App is iPhone-only (runs on iPad in compatibility mode).
+Required: iPhone 6.7" or 6.9" display, portrait, at least 1 screen (3–10 recommended).
+
+Suggested shots:
+1. Tuner listening, string in tune
+2. Tuning picker with library
+3. Metronome
+4. Custom tuning editor
+5. Settings (A4 calibration)
+
+Capture on an iPhone 15/16 Pro Max simulator on a Mac, or a physical device.
+
+================================================================
+BUILD AND UPLOAD (Mac with Xcode + paid Apple Developer account)
+================================================================
+1. Open ios/Runner.xcworkspace in Xcode (not the .xcodeproj).
+2. Signing & Capabilities → Team NY54WRBFV6 (already set, same as Sprint App).
+3. Enable GitHub Pages (docs folder) or host docs/privacy.html and paste the URL in App Store Connect.
+4. From the project root:
+
+   flutter pub get
+   cd ios && pod install && cd ..
+   flutter build ipa --release --export-options-plist=ios/ExportOptions.plist
+
+5. Upload the IPA with Transporter, or:
+   xcrun altool --upload-app --type ios --file build/ios/ipa/tuneit.ipa --apiKey KEY --apiIssuer ISSUER
+
+   Or in Xcode: Product → Archive → Distribute App → App Store Connect.
+
+6. In App Store Connect: create the app, paste listing text, attach screenshots, attach the build, submit for review.

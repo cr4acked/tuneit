@@ -5,7 +5,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-flutter create --platforms=android,ios --org kz.qoldau --project-name tuneit .
+flutter create --platforms=android,ios --org kz.tuneit --project-name app .
 python3 platform_patches/apply_patches.py
 flutter pub get
 flutter analyze

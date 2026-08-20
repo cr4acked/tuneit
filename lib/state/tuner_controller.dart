@@ -102,10 +102,13 @@ class TunerController extends ChangeNotifier {
     final repo = settings.repo;
     instrument = instrumentById(repo.lastInstrumentId ?? 'guitar_6');
     final saved = repo.lastTuningId;
-    tuning = (saved != null
-            ? presetById(instrument, saved) ?? _customById(saved)
-            : null) ??
-        instrument.tunings.first;
+    final candidate = saved != null
+        ? presetById(instrument, saved) ?? _customById(saved)
+        : null;
+    tuning = (candidate != null &&
+            candidate.stringCount == instrument.stringCount)
+        ? candidate
+        : instrument.tunings.first;
   }
 
   TuningPreset? _customById(String id) {
@@ -127,28 +130,38 @@ class TunerController extends ChangeNotifier {
     notifyListeners();
   }
 
+  int _startEpoch = 0;
+
   Future<void> start() async {
     if (!microphoneAvailable) return;
     if (status == TunerStatus.listening || status == TunerStatus.starting) {
       return;
     }
+    final epoch = ++_startEpoch;
     status = TunerStatus.starting;
     notifyListeners();
     try {
       _capture ??= AudioCapture();
       final granted = await _capture!.hasPermission();
+      if (epoch != _startEpoch) return;
       if (!granted) {
         status = TunerStatus.denied;
         notifyListeners();
         return;
       }
       _engine ??= await PitchEngine.spawn();
+      if (epoch != _startEpoch) return;
       _resultSub ??= _engine!.results.listen(ingest);
       final stream = await _capture!.start();
+      if (epoch != _startEpoch) {
+        await _capture?.stop();
+        return;
+      }
       final engine = _engine!;
       _micSub = stream.listen(engine.addPcm16);
       status = TunerStatus.listening;
     } catch (_) {
+      if (epoch != _startEpoch) return;
       // Missing plugin (tests) or platform failure: degrade gracefully,
       // reference tones remain available.
       status = TunerStatus.denied;
@@ -157,6 +170,7 @@ class TunerController extends ChangeNotifier {
   }
 
   Future<void> stop() async {
+    _startEpoch++;
     await _micSub?.cancel();
     _micSub = null;
     try {
@@ -202,7 +216,8 @@ class TunerController extends ChangeNotifier {
   }
 
   void selectString(int index) {
-    manualStringIndex = index;
+    if (tuning.midiNotes.isEmpty) return;
+    manualStringIndex = index.clamp(0, tuning.midiNotes.length - 1);
     mode = TunerMode.manual;
     _resetSmoothing();
     notifyListeners();
@@ -226,19 +241,23 @@ class TunerController extends ChangeNotifier {
     await _customRepo.save(_customTunings);
     if (tuning.id == id) {
       tuning = instrument.tunings.first;
+      manualStringIndex = 0;
+      settings.repo.saveLastSelection(instrument.id, tuning.id);
     }
     notifyListeners();
   }
 
   List<TuningPreset> customTuningsFor(InstrumentType inst) {
-    return _customTunings
-        .where((t) => t.stringCount == inst.stringCount)
-        .toList();
+    return _customTunings.where((t) {
+      if (t.instrumentId != null) return t.instrumentId == inst.id;
+      return t.stringCount == inst.stringCount;
+    }).toList();
   }
 
   // -- Reference tones ------------------------------------------------------
 
   Future<void> toggleReferenceTone(int stringIndex) async {
+    if (stringIndex < 0 || stringIndex >= tuning.midiNotes.length) return;
     if (playingToneIndex == stringIndex) {
       await stopReferenceTone();
       return;
@@ -309,7 +328,7 @@ class TunerController extends ChangeNotifier {
     }
     _emptyFrames = 0;
 
-    // Median-of-3 to kill single-frame outliers, then EMA for the needle.
+    if (tuning.midiNotes.isEmpty) return;
     _median.add(hz);
     if (_median.length > kMedianWindow) _median.removeAt(0);
     final sorted = [..._median]..sort();
@@ -330,8 +349,9 @@ class TunerController extends ChangeNotifier {
         targetMidi = nearestMidi(smoothHz, a4Hz: a4);
         activeStringIndex = null;
       case TunerMode.manual:
-        activeStringIndex = manualStringIndex;
-        targetMidi = tuning.midiNotes[manualStringIndex];
+        final idx = manualStringIndex.clamp(0, tuning.midiNotes.length - 1);
+        activeStringIndex = idx;
+        targetMidi = tuning.midiNotes[idx];
       case TunerMode.auto:
         var bestIndex = 0;
         var bestAbsCents = double.infinity;

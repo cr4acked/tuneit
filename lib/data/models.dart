@@ -13,6 +13,7 @@ class TuningPreset {
     required this.category,
     this.nonMonotonic = false,
     this.isCustom = false,
+    this.instrumentId,
   });
 
   /// Stable identifier, e.g. 'guitar_6.drop_c'.
@@ -32,6 +33,10 @@ class TuningPreset {
 
   final bool isCustom;
 
+  /// Owning instrument for custom tunings. Null on built-in presets and
+  /// on customs saved before this field existed.
+  final String? instrumentId;
+
   int get stringCount => midiNotes.length;
 
   /// Compact letters-only label, e.g. 'CGCFAD'.
@@ -48,6 +53,7 @@ class TuningPreset {
         'id': id,
         'name': name,
         'midiNotes': midiNotes,
+        if (instrumentId != null) 'instrumentId': instrumentId,
       };
 
   static TuningPreset fromJson(Map<String, Object?> json) {
@@ -58,6 +64,7 @@ class TuningPreset {
           (json['midiNotes'] as List).map((e) => e as int).toList(growable: false),
       category: TuningCategory.custom,
       isCustom: true,
+      instrumentId: json['instrumentId'] as String?,
     );
   }
 }

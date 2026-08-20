@@ -134,18 +134,18 @@ void main() {
 
   test('custom tunings save, update and delete', () async {
     final c = await makeController();
-    const preset = TuningPreset(
+    await c.saveCustomTuning(const TuningPreset(
       id: 'custom.test1',
       name: 'My Drop C',
       midiNotes: [36, 43, 48, 53, 57, 62],
       category: TuningCategory.custom,
       isCustom: true,
       nonMonotonic: true,
-    );
-    await c.saveCustomTuning(preset);
+      instrumentId: 'guitar_6',
+    ));
     expect(c.customTunings.length, 1);
     expect(c.customTuningsFor(instrumentById('guitar_6')).length, 1);
-    expect(c.customTuningsFor(instrumentById('bass_4')), isEmpty);
+    expect(c.customTuningsFor(instrumentById('bass_6')), isEmpty);
 
     await c.saveCustomTuning(const TuningPreset(
       id: 'custom.test1',
@@ -171,12 +171,14 @@ void main() {
         midiNotes: [30, 35, 40, 45],
         category: TuningCategory.custom,
         isCustom: true,
+        instrumentId: 'bass_4',
       ),
     ]);
     final loaded = CustomTuningsRepository(p).load();
     expect(loaded.single.name, 'X');
     expect(loaded.single.midiNotes, [30, 35, 40, 45]);
     expect(loaded.single.isCustom, isTrue);
+    expect(loaded.single.instrumentId, 'bass_4');
   });
 
   test('start() without a microphone is a harmless no-op', () async {

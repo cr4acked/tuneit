@@ -47,7 +47,7 @@ if ($LASTEXITCODE -ne 0) { Fail 'flutter --version завершился с ош�
 
 # --- 2. Generate platform folders -----------------------------------------
 if (-not (Test-Path (Join-Path $PSScriptRoot 'android'))) {
-  & $flutter create --platforms=android,ios --org kz.qoldau --project-name tuneit .
+  & $flutter create --platforms=android,ios --org kz.tuneit --project-name app .
   if ($LASTEXITCODE -ne 0) { Fail 'flutter create не удался.' }
 } else {
   Write-Host 'android/ уже существует — flutter create пропущен.'

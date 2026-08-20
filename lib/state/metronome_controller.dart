@@ -106,7 +106,10 @@ class MetronomeController extends ChangeNotifier {
 
   Future<void> toggle() => _running ? stop() : start();
 
+  int _startEpoch = 0;
+
   Future<void> start() async {
+    final epoch = ++_startEpoch;
     _running = true;
     notifyListeners();
     await _engine.start(
@@ -115,6 +118,7 @@ class MetronomeController extends ChangeNotifier {
       subdivisions: _subdivisions,
       accentFirst: _accentFirst,
     );
+    if (epoch != _startEpoch || !_running) return;
     _uiTimer?.cancel();
     _uiTimer = Timer.periodic(const Duration(milliseconds: 30), (_) {
       final beat = _engine.currentBeat(bpm: _bpm, beatsPerBar: _signature.beats);
@@ -133,6 +137,7 @@ class MetronomeController extends ChangeNotifier {
   }
 
   Future<void> stop() async {
+    _startEpoch++;
     _running = false;
     _uiTimer?.cancel();
     _uiTimer = null;

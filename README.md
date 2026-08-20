@@ -6,7 +6,7 @@
 
 Нужен установленный Flutter (stable). Первый запуск на Windows — двойной клик по `setup.bat` (вся логика в `setup.ps1`, вывод пишется в `setup_log.txt`). Скрипт сам находит Flutter, генерирует платформенные папки (`flutter create`), добавляет разрешение `RECORD_AUDIO` в Android-манифест и `NSMicrophoneUsageDescription` в iOS Info.plist, ставит зависимости, прогоняет `flutter analyze` + `flutter test` и, если по USB подключён Android-телефон с включённой отладкой, сразу собирает и запускает на нём release-сборку. Дальше — обычный `flutter run`.
 
-На macOS/Linux те же шаги вручную: `flutter create --platforms=android,ios --org kz.qoldau --project-name tuneit .`, затем добавить два разрешения в манифесты, `flutter pub get`, `flutter test`, `flutter run`.
+На macOS/Linux те же шаги вручную: `flutter create --platforms=android,ios --org kz.tuneit --project-name app .`, затем Bundle ID/applicationId должны быть `kz.tuneit.app`; добавить два разрешения в манифесты, `flutter pub get`, `flutter test`, `flutter run`.
 
 Разрешение `INTERNET` в основной манифест сознательно не добавляется: это техническая гарантия, что релизная сборка не ходит в сеть. Все звуки (эталонные тоны, клики метронома) генерируются в рантайме — аудио-ассетов в проекте нет.
 

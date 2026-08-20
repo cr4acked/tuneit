@@ -1,0 +1,2 @@
+CFBundleDisplayName = "Tuneit";
+NSMicrophoneUsageDescription = "Tuneit uses the microphone to hear your instrument and show how close each string is to pitch. Audio stays on this device and is never uploaded.";

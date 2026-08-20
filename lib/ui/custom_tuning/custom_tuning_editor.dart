@@ -95,6 +95,7 @@ class _CustomTuningEditorState extends State<CustomTuningEditor> {
       category: TuningCategory.custom,
       isCustom: true,
       nonMonotonic: true,
+      instrumentId: widget.instrument.id,
     );
     await tuner.saveCustomTuning(preset);
     if (mounted) {

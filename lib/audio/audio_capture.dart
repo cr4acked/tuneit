@@ -12,7 +12,10 @@ class AudioCapture {
 
   Future<bool> hasPermission() => _recorder.hasPermission();
 
-  Future<Stream<Uint8List>> start() {
+  Future<Stream<Uint8List>> start() async {
+    if (await _recorder.isRecording()) {
+      await _recorder.stop();
+    }
     return _recorder.startStream(
       const RecordConfig(
         encoder: AudioEncoder.pcm16bits,

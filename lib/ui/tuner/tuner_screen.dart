@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../core/note_utils.dart';
 import '../../core/theme.dart';
 import '../../l10n/strings.dart';
+import '../../state/metronome_controller.dart';
 import '../../state/settings_controller.dart';
 import '../../state/tuner_controller.dart';
 import '../instrument_picker/instrument_picker_screen.dart';
@@ -41,13 +42,20 @@ class _TunerScreenState extends State<TunerScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     final tuner = context.read<TunerController>();
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.inactive) {
-      // Never hold the microphone in the background.
-      tuner.stop();
-      tuner.stopReferenceTone();
-    } else if (state == AppLifecycleState.resumed) {
-      tuner.start();
+    final metronome = context.read<MetronomeController>();
+    // `inactive` fires for permission dialogs, Control Center and similar
+    // overlays — stopping the mic there races start() and drops the tuner.
+    switch (state) {
+      case AppLifecycleState.paused:
+      case AppLifecycleState.hidden:
+      case AppLifecycleState.detached:
+        tuner.stop();
+        tuner.stopReferenceTone();
+        metronome.stop();
+      case AppLifecycleState.resumed:
+        tuner.start();
+      case AppLifecycleState.inactive:
+        break;
     }
   }
 
@@ -92,24 +100,12 @@ class _TunerScreenState extends State<TunerScreen>
           IconButton(
             tooltip: s.metronome,
             icon: const Icon(Icons.av_timer),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => const MetronomeScreen(),
-                ),
-              );
-            },
+            onPressed: () => _openRoute(context, const MetronomeScreen()),
           ),
           IconButton(
             tooltip: s.settings,
             icon: const Icon(Icons.settings_outlined),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => const SettingsScreen(),
-                ),
-              );
-            },
+            onPressed: () => _openRoute(context, const SettingsScreen()),
           ),
         ],
       ),
@@ -131,12 +127,19 @@ class _TunerScreenState extends State<TunerScreen>
     );
   }
 
-  Future<void> _openPicker(BuildContext context) async {
+  Future<void> _openPicker(BuildContext context) =>
+      _openRoute(context, const InstrumentPickerScreen());
+
+  Future<void> _openRoute(BuildContext context, Widget page) async {
+    final tuner = context.read<TunerController>();
+    await tuner.stop();
+    await tuner.stopReferenceTone();
+    if (!context.mounted) return;
     await Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => const InstrumentPickerScreen(),
-      ),
+      MaterialPageRoute<void>(builder: (_) => page),
     );
+    if (!context.mounted) return;
+    await tuner.start();
   }
 }
 

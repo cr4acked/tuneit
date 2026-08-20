@@ -1,4 +1,4 @@
-package kz.qoldau.tuneit
+package kz.tuneit.app
 
 import io.flutter.embedding.android.FlutterActivity
 

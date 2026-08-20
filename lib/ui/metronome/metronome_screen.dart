@@ -5,8 +5,27 @@ import '../../core/constants.dart';
 import '../../l10n/strings.dart';
 import '../../state/metronome_controller.dart';
 
-class MetronomeScreen extends StatelessWidget {
+class MetronomeScreen extends StatefulWidget {
   const MetronomeScreen({super.key});
+
+  @override
+  State<MetronomeScreen> createState() => _MetronomeScreenState();
+}
+
+class _MetronomeScreenState extends State<MetronomeScreen> {
+  late final MetronomeController _metronome;
+
+  @override
+  void initState() {
+    super.initState();
+    _metronome = context.read<MetronomeController>();
+  }
+
+  @override
+  void dispose() {
+    _metronome.stop();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
