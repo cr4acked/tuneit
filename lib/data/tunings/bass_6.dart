@@ -1,0 +1,10 @@
+import '../models.dart';
+
+const _id = 'bass_6';
+
+final List<TuningPreset> bass6Tunings = [
+  t(_id, 'standard_b', 'Standard B', 'B0 E1 A1 D2 G2 C3', TuningCategory.standard),
+  t(_id, 'drop_a', 'Drop A', 'A0 E1 A1 D2 G2 C3', TuningCategory.drop),
+  t(_id, 'a_sharp_standard', 'A# Standard (-1/2)', 'A#0 D#1 G#1 C#2 F#2 A#2', TuningCategory.lowered),
+  t(_id, 'a_standard', 'A Standard (-1)', 'A0 D1 G1 C2 F2 A#2', TuningCategory.lowered),
+];

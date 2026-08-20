@@ -1,0 +1,26 @@
+name: tuneit
+description: Offline chromatic tuner for guitars and basses with a full tuning library, reference tones and a metronome. No backend, no network.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  provider: ^6.1.2
+  record: ^5.2.1
+  permission_handler: ^11.3.1
+  shared_preferences: ^2.3.2
+  just_audio: ^0.9.42
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true

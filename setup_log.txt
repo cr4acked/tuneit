@@ -1,0 +1,56 @@
+﻿**********************
+Начало записи сценария Windows PowerShell
+Время начала: 20260820181312
+Имя пользователя: IAC\arman
+Запуск от имени пользователя: IAC\arman
+Имя конфигурации: 
+Компьютер: DEVARMAN (Microsoft Windows NT 10.0.26200.0)
+Ведущее приложение: powershell -NoProfile -ExecutionPolicy Bypass -File C:\Users\Arman\source\repos\tuneit\setup.ps1
+ИД процесса: 24212
+PSVersion: 5.1.26100.7705
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.7705
+BuildVersion: 10.0.26100.7705
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Flutter: F:\src\flutter\bin\flutter.bat
+Flutter 3.38.9 • channel stable • https://github.com/flutter/flutter.git
+Framework • revision 67323de285 (7 months ago) • 2026-01-28 13:43:12 -0800
+Engine • hash 5eb06b7ad5bb8cbc22c5230264c7a00ceac7674b (revision 587c18f873) (6 months ago) • 2026-01-27 23:23:03.000Z
+Tools • Dart 3.10.8 • DevTools 2.51.1
+android/ уже существует — flutter create пропущен.
+android: RECORD_AUDIO уже на месте
+  lints 4.0.0 (6.1.0 available)
+  matcher 0.12.17 (0.12.20 available)
+  material_color_utilities 0.11.1 (0.13.1 available)
+  meta 1.17.0 (1.19.0 available)
+  objective_c 9.5.0 (9.6.0 available)
+  package_config 2.2.0 (3.0.0 available)
+  permission_handler 11.4.0 (13.0.1 available)
+  permission_handler_android 12.1.0 (14.0.0 available)
+  record 5.2.1 (7.1.1 available)
+  record_android 1.5.2 (2.1.2 available)
+  record_linux 0.7.2 (2.1.1 available)
+  record_platform_interface 1.6.0 (2.1.0 available)
+  record_use 0.6.0 (1.1.1 available)
+  record_web 1.3.0 (2.1.2 available)
+  record_windows 1.0.7 (2.2.3 available)
+  shared_preferences_android 2.4.23 (2.4.27 available)
+  synchronized 3.4.0 (3.4.1+2 available)
+  test_api 0.7.7 (0.7.13 available)
+  vector_math 2.2.0 (2.4.2 available)
+Got dependencies!
+26 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+
+
+
+Ищу подключённый Android-телефон...
+Устройство найдено: RFGL146ZS3N. Собираю и запускаю (release)...
+**********************
+Конец записи протокола Windows PowerShell
+Время окончания: 20260820181347
+**********************
